@@ -1,0 +1,33 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.android.reverse"
+        minSdkVersion 16
+        targetSdkVersion 23
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+configurations{
+    provided
+    compile.extendsFrom provided
+}
+
+dependencies {
+    provided fileTree(dir: 'libs-provided', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v4:23.0.1'
+    compile 'com.google.guava:guava:18.0'
+//    compile files('libs/antlr-3.5.2-complete.jar')
+//    compile files('libs/commons-cli-1.2.jar')
+}
