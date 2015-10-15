@@ -10,6 +10,7 @@ import com.android.reverse.hook.HookHelperFacktory;
 import com.android.reverse.hook.HookHelperInterface;
 import com.android.reverse.hook.HookParam;
 import com.android.reverse.hook.MethodHookCallBack;
+import com.android.reverse.hook.SimpleMethodHookCallbackAdapter;
 import com.android.reverse.util.JsonWriter;
 import com.android.reverse.util.Logger;
 import com.android.reverse.util.RefInvoke;
@@ -24,8 +25,6 @@ public class LuaScriptInvoker{
 	private LuaScriptInvoker(){
 		
 	}
-	
-	
 	public static LuaScriptInvoker getInstance(){
 		if(luaInvoker == null)
 			luaInvoker = new LuaScriptInvoker();
@@ -33,16 +32,13 @@ public class LuaScriptInvoker{
 	}
 	
 	public void start(){
+		hookFindLibraryMethod();
+	}
+
+	private void hookFindLibraryMethod(){
 		Method findLibraryMethod = RefInvoke.findMethodExact("dalvik.system.BaseDexClassLoader", ClassLoader.getSystemClassLoader(), "findLibrary",
 				String.class);
-		hookhelper.hookMethod(findLibraryMethod, new MethodHookCallBack() {
-
-			@Override
-			public void beforeHookedMethod(HookParam param) {
-				// TODO Auto-generated method stub
-
-			}
-
+		hookhelper.hookMethod(findLibraryMethod, new SimpleMethodHookCallbackAdapter() {
 			@Override
 			public void afterHookedMethod(HookParam param) {
 				Logger.log((String) param.args[0]);
@@ -51,7 +47,6 @@ public class LuaScriptInvoker{
 				}
 			}
 		});
-		
 	}
 	
 	private void initLuaContext(LuaState luaState){
@@ -61,7 +56,6 @@ public class LuaScriptInvoker{
 			JavaFunction tostringfunction = new ToStringFunctionCallBack(luaState);
 			tostringfunction.register("tostring");
 		} catch (LuaException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
