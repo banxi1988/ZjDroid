@@ -16,32 +16,32 @@ public class CommandBroadcastReceiver extends BroadcastReceiver {
 	public static String COMMAND_NAME_KEY = "cmd";
 
 	@Override
-	public void onReceive(final Context arg0, Intent arg1) {
-		// TODO Auto-generated method stub
-		if (INTENT_ACTION.equals(arg1.getAction())) {
-			try {
-				int pid = arg1.getIntExtra(TARGET_KEY, 0);
-				if (pid == android.os.Process.myPid()) {
-					String cmd = arg1.getStringExtra(COMMAND_NAME_KEY);
-					final CommandHandler handler = CommandHandlerParser
-							.parserCommand(cmd);
-					if (handler != null) {
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								// TODO Auto-generated method stub
-								handler.doAction();
-							}
-						}).start();
-					}else{
-						Logger.log("the cmd is invalid");
-					}
-				}
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+	public void onReceive(final Context ctx, Intent intent) {
+		if(!INTENT_ACTION.equalsIgnoreCase(intent.getAction())){
+			return;
 		}
+        int pid = intent.getIntExtra(TARGET_KEY, 0);
+        int myPid = android.os.Process.myPid();
+        if(pid != myPid){
+            return;
+        }
+        try {
+            String cmd = intent.getStringExtra(COMMAND_NAME_KEY);
+            final CommandHandler handler = CommandHandlerParser
+                    .parserCommand(cmd);
+            if (handler != null) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.doAction();
+                    }
+                }).start();
+            }else{
+                Logger.log("the cmd is invalid");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	
 }
