@@ -2,6 +2,7 @@ package com.android.reverse.mod;
 
 import android.content.pm.ApplicationInfo;
 
+import com.android.reverse.BuildConfig;
 import com.android.reverse.apimonitor.ApiMonitorHookManager;
 import com.android.reverse.collecter.DexFileInfoCollecter;
 import com.android.reverse.collecter.LuaScriptInvoker;
@@ -14,7 +15,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class ReverseXposedModule implements IXposedHookLoadPackage {
-	private static final String ZJDROID_PACKAGENAME = "com.android.reverse";
+	private static final String ZJDROID_PACKAGENAME = BuildConfig.APPLICATION_ID;
 	@Override
 	public void handleLoadPackage(LoadPackageParam loadPackageParam) throws Throwable {
 			if (loadPackageParam.appInfo == null){

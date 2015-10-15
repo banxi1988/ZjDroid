@@ -6,6 +6,7 @@ import org.keplerproject.luajava.LuaException;
 import org.keplerproject.luajava.LuaState;
 import org.keplerproject.luajava.LuaStateFactory;
 
+import com.android.reverse.BuildConfig;
 import com.android.reverse.hook.HookHelperFacktory;
 import com.android.reverse.hook.HookHelperInterface;
 import com.android.reverse.hook.HookParam;
@@ -43,7 +44,7 @@ public class LuaScriptInvoker{
 			public void afterHookedMethod(HookParam param) {
 				Logger.log((String) param.args[0]);
 				if (LUAJAVA_LIB.equals(param.args[0]) && param.getResult() == null) {
-					param.setResult("/data/data/com.android.reverse/lib/libluajava.so");
+					param.setResult("/data/data/"+ BuildConfig.APPLICATION_ID+"/lib/libluajava.so");
 				}
 			}
 		});

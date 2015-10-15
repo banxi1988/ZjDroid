@@ -1,5 +1,6 @@
 package com.android.reverse.request;
 
+import com.android.reverse.BuildConfig;
 import com.android.reverse.collecter.DexFileInfoCollecter;
 import com.android.reverse.util.Logger;
 
@@ -13,7 +14,6 @@ public class DumpClassCommandHandler implements CommandHandler {
 
 	@Override
 	public void doAction() {
-		// TODO Auto-generated method stub
 		String[] loadClass = DexFileInfoCollecter.getInstance().dumpLoadableClass(dexpath);
 		if (loadClass != null) {
 			Logger.log("Start Loadable ClassName ->");
@@ -30,7 +30,7 @@ public class DumpClassCommandHandler implements CommandHandler {
 		}
 	}
 
-	private final String[] filterClassName = { "android.support.v4.", "com.android.reverse.", "org.jf.", "org.keplerproject." };
+	private final String[] filterClassName = { "android.support.v4.", BuildConfig.APPLICATION_ID+".", "org.jf.", "org.keplerproject." };
 
 	private boolean isFilterClass(String className) {
 		String filterName = null;

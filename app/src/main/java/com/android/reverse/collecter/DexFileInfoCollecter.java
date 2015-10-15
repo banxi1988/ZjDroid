@@ -10,6 +10,7 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import com.android.reverse.BuildConfig;
 import com.android.reverse.hook.HookHelperFacktory;
 import com.android.reverse.hook.HookHelperInterface;
 import com.android.reverse.hook.HookParam;
@@ -87,7 +88,7 @@ public class DexFileInfoCollecter{
 			public void afterHookedMethod(HookParam param) {
 				Logger.log((String) param.args[0]);
 				if (DVMLIB_LIB.equals(param.args[0]) && param.getResult() == null) {
-					param.setResult("/data/data/com.android.reverse/lib/libdvmnative.so");
+					param.setResult("/data/data/"+ BuildConfig.APPLICATION_ID+"/lib/libdvmnative.so");
 				}
 			}
 		});
