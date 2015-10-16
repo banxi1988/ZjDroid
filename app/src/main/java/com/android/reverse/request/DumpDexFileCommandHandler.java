@@ -15,7 +15,6 @@ public class DumpDexFileCommandHandler implements CommandHandler {
 
 	@Override
 	public void doAction() {
-		// TODO Auto-generated method stub
 		String filename = ModuleContext.getInstance().getAppContext().getFilesDir()+"/dexdump.odex";
 		DexFileInfoCollecter.getInstance().dumpDexFile(filename, dexpath);
 		Logger.log("the dexfile data save to ="+filename);

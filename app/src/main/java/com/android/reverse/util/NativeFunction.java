@@ -27,7 +27,6 @@ public class NativeFunction implements MemoryReader {
     public static native HashMap getSyslinkSnapshot();
 	
 	public byte[] readBytes(int arg0, int arg1) {
-		// TODO Auto-generated method stub
 		ByteBuffer data = dumpMemory(arg0, arg1);
 		data.order(ByteOrder.LITTLE_ENDIAN);
 		byte[] buffer = new byte[data.capacity()];
