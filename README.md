@@ -99,7 +99,8 @@ adb shell logcat -s zjdroid-apimonitor-{package name}
 ## Author
 1. 原始项目在 GitHub 上已经被删除了。
 从从 libdvmnative.so 中分析作者应该是  [jiazhijun](https://github.com/jiazhijun) 不过目前项目已经被清空了。
-
+来自百度安全实验室：
+<http://seclab.safe.baidu.com/opensec_detail_2.html>
 当前项目 based on halfkiss/ZjDroid
 
 2. 新的提交作者 banxi1988 [banxxi1988@gmail.com](mailto:banxi1988@gmail.com)
