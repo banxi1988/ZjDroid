@@ -11,6 +11,7 @@ import com.android.reverse.util.Logger;
 
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
+import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
@@ -29,12 +30,12 @@ public class ReverseXposedModule implements IXposedHookLoadPackage {
 			}
 
             Logger.PACKAGENAME = applicationId;
-            Logger.log("the package = "+applicationId+" has hook");
-            Logger.log("the app target id = "+android.os.Process.myPid());
+            XposedBridge.log("the package = " + applicationId + " has hook");
+            XposedBridge.log("the app target id = " + android.os.Process.myPid());
             PackageMetaInfo pminfo = PackageMetaInfo.fromXposed(loadPackageParam);
             ModuleContext.getInstance().initModuleContext(pminfo);
             DexFileInfoCollecter.getInstance().start();
-            LuaScriptInvoker.getInstance().start();
-            ApiMonitorHookManager.getInstance().startMonitor();
+//            LuaScriptInvoker.getInstance().start();
+//            ApiMonitorHookManager.getInstance().startMonitor();
 	}
 }

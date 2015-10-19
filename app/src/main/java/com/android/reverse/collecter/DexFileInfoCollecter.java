@@ -9,6 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 import com.android.reverse.BuildConfig;
 import com.android.reverse.hook.HookHelperFacktory;
@@ -22,6 +23,7 @@ import com.android.reverse.util.NativeFunction;
 import com.android.reverse.util.RefInvoke;
 import dalvik.system.DexFile;
 import dalvik.system.PathClassLoader;
+import de.robv.android.xposed.XposedBridge;
 
 public class DexFileInfoCollecter{
 
@@ -51,14 +53,19 @@ public class DexFileInfoCollecter{
 	}
 
 	private void hookOpenDexFileNativeMethod(){
-		Method openDexFileNativeMethod = RefInvoke.findMethodExact(DALVIK_SYSTEM_DEX_FILE, ClassLoader.getSystemClassLoader(), "openDexFileNative",
+		XposedBridge.log("hookOpenDexFileNativeMethod systemClassLoader = "+ClassLoader.getSystemClassLoader()+", pathClassLoader="+pathClassLoader);
+		Method openDexFileMethod = RefInvoke.findMethodExact(DALVIK_SYSTEM_DEX_FILE, ClassLoader.getSystemClassLoader(), "openDexFileNative",
 				String.class, String.class, int.class);
-		hookhelper.hookMethod(openDexFileNativeMethod, new SimpleMethodHookCallbackAdapter() {
+		if(openDexFileMethod == null){
+			openDexFileMethod = RefInvoke.findMethodExact(DALVIK_SYSTEM_DEX_FILE,ClassLoader.getSystemClassLoader(),"openDexFile",String.class,String.class,int.class);
+		}
+		hookhelper.hookMethod(openDexFileMethod, new SimpleMethodHookCallbackAdapter() {
 			@Override
 			public void afterHookedMethod(HookParam param) {
 				String dexPath = (String) param.args[0];
 				int mCookie = (Integer) param.getResult();
 				if (mCookie != 0) {
+					Logger.log("openDexFile "+dexPath);
 					dynLoadedDexInfo.put(dexPath, new DexFileInfo(dexPath, mCookie));
 				}
 			}
@@ -66,9 +73,16 @@ public class DexFileInfoCollecter{
 	}
 
 	private void hookDefineClassNativeMethod(){
-		Method defineClassNativeMethod = RefInvoke.findMethodExact(DALVIK_SYSTEM_DEX_FILE, ClassLoader.getSystemClassLoader(), "defineClassNative",
+		// for 4.4 and later
+		Method defineClassMethod = RefInvoke.findMethodExact(DALVIK_SYSTEM_DEX_FILE, ClassLoader.getSystemClassLoader(), "defineClassNative",
 				String.class, ClassLoader.class,int.class);
-		hookhelper.hookMethod(defineClassNativeMethod, new SimpleMethodHookCallbackAdapter() {
+		if(defineClassMethod == null){
+			// for jelly bean and later
+			defineClassMethod = RefInvoke.findMethodExact(DALVIK_SYSTEM_DEX_FILE, ClassLoader.getSystemClassLoader(), "defineClass",String.class,ClassLoader.class,int.class);
+		}
+
+
+		hookhelper.hookMethod(defineClassMethod, new SimpleMethodHookCallbackAdapter() {
 			@Override
 			public void afterHookedMethod(HookParam param) {
 				if(!param.hasThrowable()){
