@@ -10,6 +10,7 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.android.reverse.BuildConfig;
 import com.android.reverse.hook.HookHelperFacktory;
@@ -65,7 +66,7 @@ public class DexFileInfoCollecter{
 				String dexPath = (String) param.args[0];
 				int mCookie = (Integer) param.getResult();
 				if (mCookie != 0) {
-					Logger.log("openDexFile "+dexPath);
+					Logger.log("openDexFile " + dexPath);
 					dynLoadedDexInfo.put(dexPath, new DexFileInfo(dexPath, mCookie));
 				}
 			}
@@ -102,7 +103,7 @@ public class DexFileInfoCollecter{
 			public void afterHookedMethod(HookParam param) {
 				Logger.log((String) param.args[0]);
 				if (DVMLIB_LIB.equals(param.args[0]) && param.getResult() == null) {
-					param.setResult("/data/data/"+ BuildConfig.APPLICATION_ID+"/lib/libdvmnative.so");
+					param.setResult("/data/data/" + BuildConfig.APPLICATION_ID + "/lib/libdvmnative.so");
 				}
 			}
 		});
@@ -110,6 +111,13 @@ public class DexFileInfoCollecter{
 
 	public HashMap<String, DexFileInfo> dumpDexFileInfo() {
 		HashMap<String, DexFileInfo> dexs = new HashMap<>(dynLoadedDexInfo);
+		HashMap<String,DexFileInfo> staticDexs = dumpStaticDexFileInfo();
+		dexs.putAll(staticDexs);
+		return dexs;
+	}
+
+	private HashMap<String,DexFileInfo> dumpStaticDexFileInfo(){
+		HashMap<String, DexFileInfo> dexs = new HashMap<>();
 		Object dexPathList = RefInvoke.getFieldOjbect(DALVIK_SYSTEM_BASE_DEX_CLASS_LOADER, pathClassLoader, "pathList");
 		Object[] dexElements = (Object[]) RefInvoke.getFieldOjbect("dalvik.system.DexPathList", dexPathList, "dexElements");
 		DexFile dexFile = null;
@@ -186,16 +194,11 @@ public class DexFileInfoCollecter{
 			DexFileInfo dexFileInfo = dynLoadedDexInfo.get(dexPath);
 			return dexFileInfo.getmCookie();
 		} else {
-			Object dexPathList = RefInvoke.getFieldOjbect(DALVIK_SYSTEM_BASE_DEX_CLASS_LOADER, pathClassLoader, "pathList");
-			Object[] dexElements = (Object[]) RefInvoke.getFieldOjbect("dalvik.system.DexPathList", dexPathList, "dexElements");
-			DexFile dexFile = null;
-			for (int i = 0; i < dexElements.length; i++) {
-				dexFile = (DexFile) RefInvoke.getFieldOjbect("dalvik.system.DexPathList$Element", dexElements[i], "dexFile");
-				String mFileName = (String) RefInvoke.getFieldOjbect(DALVIK_SYSTEM_DEX_FILE, dexFile, "mFileName");
-				if (mFileName.equals(dexPath)) {
-					return RefInvoke.getFieldInt(DALVIK_SYSTEM_DEX_FILE, dexFile, "mCookie");
+			HashMap<String,DexFileInfo> staticDexs = dumpStaticDexFileInfo();
+			for(HashMap.Entry<String,DexFileInfo> entry:staticDexs.entrySet()){
+				if(entry.getKey().equals(dexPath)){
+					return entry.getValue().getmCookie();
 				}
-
 			}
 			return 0;
 		}
