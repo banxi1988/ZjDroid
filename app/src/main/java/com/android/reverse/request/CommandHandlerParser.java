@@ -14,15 +14,13 @@ public class CommandHandlerParser {
 	private static String ACTION_DUMP_HEAP = "dump_heap";
 
 	private static String ACTION_DUMP_DEXCLASS = "dump_class";
-	private static String PARAM_DEXPATH_DUMPDEXCLASS = "dexpath";
-
+	private static String PARAM_DEXPATH = "dexpath";
 	private static String ACTION_DUMP_DEXFILE = "dump_dexfile";
 	private static String ACTION_BAKSMALI_DEXFILE = "baksmali";
-	private static String PARAM_DEXPATH_DUMP_DEXFILE = "dexpath";
 
 	private static String ACTION_DUMP_MEMERY = "dump_mem";
-	private static String PARAM_START_DUMP_MEMERY = "startaddr";
-	private static String PARAM_LENGTH_DUMP_MEMERY = "length";
+	private static String PARAM_START_ADDR = "startaddr";
+	private static String PARAM_LENGTH = "length";
 
 	private static String ACTION_INVOKE_SCRIPT = "invoke";
 	private static String FILE_SCRIPT = "filepath";
@@ -30,12 +28,12 @@ public class CommandHandlerParser {
 	public static CommandHandler parserCommand(String cmd) {
 		try {
 			return lookupHandler(cmd);
-
 		}catch (CommandParameterNotFoundException e){
 			Logger.log(e.getMessage());
 			Logger.log("Please set the "+e.parameterKey+" value");
 		} catch (JSONException e) {
 			e.printStackTrace();
+			Logger.log(e.getMessage());
 		}
 		return null;
 	}
@@ -55,13 +53,13 @@ public class CommandHandlerParser {
 		if (ACTION_DUMP_DEXINFO.equals(action)) {
 			return new DumpDexInfoCommandHandler();
 		} else if (ACTION_DUMP_DEXFILE.equals(action)) {
-			String dexpath = getStringParameter(jsoncmd,PARAM_DEXPATH_DUMPDEXCLASS);
+			String dexpath = getStringParameter(jsoncmd, PARAM_DEXPATH);
             return  new DumpDexFileCommandHandler(dexpath);
 		} else if (ACTION_BAKSMALI_DEXFILE.equals(action)) {
-			String dexpath = getStringParameter(jsoncmd,PARAM_DEXPATH_DUMPDEXCLASS);
+			String dexpath = getStringParameter(jsoncmd, PARAM_DEXPATH);
              return new BackSmaliCommandHandler(dexpath);
 		} else if (ACTION_DUMP_DEXCLASS.equals(action)) {
-            String dexpath = getStringParameter(jsoncmd, PARAM_DEXPATH_DUMP_DEXFILE);
+            String dexpath = getStringParameter(jsoncmd, PARAM_DEXPATH);
             return  new DumpClassCommandHandler(dexpath);
 		} else if (ACTION_DUMP_HEAP.equals(action)) {
 			return new DumpHeapCommandHandler();
@@ -69,8 +67,8 @@ public class CommandHandlerParser {
             String filepath = getStringParameter(jsoncmd,FILE_SCRIPT);
             return  new InvokeScriptCommandHandler(filepath, ScriptType.FILETYPE);
 		} else if (ACTION_DUMP_MEMERY.equals(action)) {
-			int start = jsoncmd.getInt(PARAM_START_DUMP_MEMERY);
-			int length = jsoncmd.getInt(PARAM_LENGTH_DUMP_MEMERY);
+			int start = jsoncmd.getInt(PARAM_START_ADDR);
+			int length = jsoncmd.getInt(PARAM_LENGTH);
 			return new DumpMemCommandHandler(start, length);
 		} else {
 			Logger.log(action + " cmd is invalid! ");
@@ -83,7 +81,7 @@ public class CommandHandlerParser {
 class CommandParameterNotFoundException extends IllegalArgumentException{
 	String parameterKey;
 	public CommandParameterNotFoundException(String parameterKey){
-		super("No Cmd Parameter For Key"+parameterKey);
+		super("No Cmd Parameter For Key "+parameterKey);
 		this.parameterKey = parameterKey;
 	}
 }
