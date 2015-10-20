@@ -17,7 +17,7 @@ public class CommandHandlerParser {
 	private static String PARAM_DEXPATH_DUMPDEXCLASS = "dexpath";
 
 	private static String ACTION_DUMP_DEXFILE = "dump_dexfile";
-	private static String ACTION_BACKSMALI_DEXFILE = "backsmali";
+	private static String ACTION_BAKSMALI_DEXFILE = "baksmali";
 	private static String PARAM_DEXPATH_DUMP_DEXFILE = "dexpath";
 
 	private static String ACTION_DUMP_MEMERY = "dump_mem";
@@ -57,11 +57,11 @@ public class CommandHandlerParser {
 		} else if (ACTION_DUMP_DEXFILE.equals(action)) {
 			String dexpath = getStringParameter(jsoncmd,PARAM_DEXPATH_DUMPDEXCLASS);
             return  new DumpDexFileCommandHandler(dexpath);
-		} else if (ACTION_BACKSMALI_DEXFILE.equals(action)) {
+		} else if (ACTION_BAKSMALI_DEXFILE.equals(action)) {
 			String dexpath = getStringParameter(jsoncmd,PARAM_DEXPATH_DUMPDEXCLASS);
              return new BackSmaliCommandHandler(dexpath);
 		} else if (ACTION_DUMP_DEXCLASS.equals(action)) {
-            String dexpath = getStringParameter(jsoncmd,PARAM_DEXPATH_DUMP_DEXFILE);
+            String dexpath = getStringParameter(jsoncmd, PARAM_DEXPATH_DUMP_DEXFILE);
             return  new DumpClassCommandHandler(dexpath);
 		} else if (ACTION_DUMP_HEAP.equals(action)) {
 			return new DumpHeapCommandHandler();

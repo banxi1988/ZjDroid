@@ -20,6 +20,18 @@ ZjDroid是基于Xposed Framewrok的动态逆向分析模块，逆向分析者可
 
 ## 二、ZjDroid相关命令
 
+关于 broadcast 命令的使用说明请参考  Android 官方文档 中 Adb Shell Commands。
+其主要的参数是关于 `INTENT` 的参数。
+这里对使用到的几个参数作简单的说明。
+
+参数说明
+  -  `-a <ACTION>` 指定 Intent的 Action 名称。
+  - `-e | --es  <extra_key> <extra_string_value> `添加键值对到 Intent 的Extras容器中。
+  - `-ei <extra_key> <extra_int_value>` 添加整型值。
+
+
+命令列表
+
 1. 获取APK当前加载DEX文件信息：
 
 ```shell
@@ -35,7 +47,7 @@ adb shell am broadcast -a com.zjdroid.invoke --ei target pid --es cmd '{"action"
 4. 根据Dalvik相关内存指针动态反编译指定DEX，并以文件形式保存。
 
 ```shell
-adb shell am broadcast -a com.zjdroid.invoke --ei target pid --es cmd '{"action":"backsmali","dexpath":"*****"}'
+adb shell am broadcast -a com.zjdroid.invoke --ei target pid --es cmd '{"action":"baksmali","dexpath":"*****"}'
 ```
 
 该方式可以脱壳目前大部分流行的加固防护。(由于手机性能问题，运行较忙)
