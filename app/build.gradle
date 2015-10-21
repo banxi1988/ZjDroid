@@ -26,6 +26,23 @@ android {
 //        }
 
         buildConfigField 'int', 'buildNumber', "${generateBuildNumber()}"
+        buildConfigField 'String', 'APP_NAME', "\"UpDroid\""
+        manifestPlaceholders = ["buildNumber":"${generateBuildNumber()}"]
+        resValue 'string','app_name','UpDroid'
+        resValue 'string','author','banxi'
+    }
+
+    productFlavors{
+        xidroid{
+            applicationId "com.android.xidroid"
+            versionName "1.0.3"
+            versionCode 5
+            buildConfigField 'String', 'APP_NAME', "\"XiDroid\""
+            resValue 'string','app_name','XiDroid'
+        }
+        updroid{
+
+        }
     }
 
     buildTypes {
@@ -36,6 +53,18 @@ android {
     }
 }
 
+android.applicationVariants.all{ variant ->
+    variant.mergeResources.doLast{
+        def buildNumber = generateBuildNumber()
+        println "Variant DirName "+variant.dirName
+        def valuesFilePath = "${buildDir}/intermediates/res/merged/${variant.dirName}/values/values.xml"
+        println "Values File Path "+valuesFilePath
+        File valuesFile = file(valuesFilePath)
+        String content = valuesFile.getText('UTF-8')
+        content = content.replaceAll(/_devBuild_/,"${buildNumber}")
+        valuesFile.write(content,'UTF-8')
+    }
+}
 
 dependencies {
     provided fileTree(dir: 'libs-provided', include: ['*.jar'])

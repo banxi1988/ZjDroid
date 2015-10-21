@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">UpDroid</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">ZjDroid是基于Xposed Framewrok的动态逆向分析模块</string>
-
+    <string name="mod_description">collect the runtime information of the applicaitons. buildNumber: _devBuild_ 。</string>
 </resources>

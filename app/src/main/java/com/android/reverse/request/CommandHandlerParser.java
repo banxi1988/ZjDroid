@@ -33,6 +33,7 @@ public class CommandHandlerParser {
 			Logger.log("Please set the "+e.parameterKey+" value");
 		} catch (JSONException e) {
 			e.printStackTrace();
+			Logger.log("cmd error "+cmd);
 			Logger.log(e.getMessage());
 		}
 		return null;
@@ -47,6 +48,7 @@ public class CommandHandlerParser {
 	}
 
 	private static CommandHandler lookupHandler(String cmd) throws JSONException{
+		Logger.log("lookupHandler for "+cmd);
 		JSONObject jsoncmd = new JSONObject(cmd);
 		String action = jsoncmd.getString(ACTION_NAME_KEY);
 		Logger.log("the cmd = " + action);

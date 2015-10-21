@@ -31,7 +31,8 @@
             android:value="54" />
         <meta-data
             android:name="xposeddescription"
-            android:value="collect the runtime information of the applicaitons" />
+            android:value="@string/mod_description" />
+        <meta-data android:name="buildNumber" android:value="${buildNumber}"/>
     </application>
 
 </manifest>

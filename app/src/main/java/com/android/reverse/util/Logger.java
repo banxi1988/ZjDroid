@@ -8,8 +8,8 @@ import de.robv.android.xposed.XposedBridge;
 
 public class Logger {
 	
-	public static String LOGTAG_COMMAN = "updroid"+BuildConfig.buildNumber+"-";
-	public static String LOGTAG_WORKFLOW = "updroid"+BuildConfig.buildNumber+"-apimonitor-";
+	public static String LOGTAG_COMMAN = BuildConfig.APP_NAME+BuildConfig.buildNumber+"-";
+	public static String LOGTAG_WORKFLOW = BuildConfig.APP_NAME+BuildConfig.buildNumber+"-apimonitor-";
 	public final static boolean DEBUG_ENABLE = true;
 	public static String PACKAGENAME;
 	
