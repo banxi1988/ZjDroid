@@ -1,0 +1,2 @@
+#!/bin/bash
+adb shell am broadcast -a com.zjdroid.invoke --ei target $1 --es cmd '{"action":"dump_dexinfo"}'

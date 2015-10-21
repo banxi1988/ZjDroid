@@ -132,7 +132,7 @@ public class DexFileInfoCollecter{
 	}
 
 	public String[] dumpLoadableClass(String dexPath) {
-		int mCookie = this.getCookie(dexPath);
+		int mCookie = parseCookieOfDexPath(dexPath);
 		if (mCookie != 0) {
 			return (String[]) RefInvoke.invokeStaticMethod(DALVIK_SYSTEM_DEX_FILE, "getClassNameList", new Class[] { int.class },
 					new Object[] { mCookie });
@@ -148,7 +148,7 @@ public class DexFileInfoCollecter{
 		try {
 			if (!file.exists())
 				file.createNewFile();
-			int mCookie = this.getCookie(dexPath);
+			int mCookie = parseCookieOfDexPath(dexPath);
 			if (mCookie != 0) {
 				MemoryBackSmali.disassembleDexFile(mCookie, filename);
 			} else {
@@ -158,13 +158,23 @@ public class DexFileInfoCollecter{
 			e.printStackTrace();
 		}
 	}
+
+	private int parseCookieOfDexPath(String dexPath){
+		int cookie = 0;
+		try {
+			cookie = Integer.parseInt(dexPath);
+		}catch (NumberFormatException e){
+			cookie = getCookie(dexPath);
+		}
+		return cookie;
+	}
 	
 	public void dumpDexFile(String filename, String dexPath) {
 		File file = new File(filename);
 		try {
 			if (!file.exists())
 				file.createNewFile();
-			int mCookie = this.getCookie(dexPath);
+			int mCookie = parseCookieOfDexPath(dexPath);
 			if (mCookie != 0) {
 				FileOutputStream out = new FileOutputStream(file);
 				ByteBuffer data = NativeFunction.dumpDexFileByCookie(mCookie, ModuleContext.getInstance().getApiLevel());

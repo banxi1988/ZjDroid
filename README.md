@@ -34,7 +34,7 @@ ZjDroid是基于Xposed Framewrok的动态逆向分析模块，逆向分析者可
  其中进程名与 `<applicationId>` 完全匹配的进程即是应用的主进程。其中输出的第二个字段即是主进程 PID
 
  2. 如果你是在Android Studio 下。Android Monitor 下的进程列表的后面也有相应进程的 ID。
- 
+
 
 
 命令列表
