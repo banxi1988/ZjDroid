@@ -19,7 +19,7 @@ public class CommandHandlerParser {
 	private static String ACTION_BAKSMALI_DEXFILE = "baksmali";
 
 	private static String ACTION_DUMP_MEMERY = "dump_mem";
-	private static String PARAM_START_ADDR = "startaddr";
+	private static String PARAM_START_ADDR = "start";
 	private static String PARAM_LENGTH = "length";
 
 	private static String ACTION_INVOKE_SCRIPT = "invoke";
