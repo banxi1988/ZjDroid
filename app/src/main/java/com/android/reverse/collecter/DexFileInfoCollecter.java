@@ -143,7 +143,7 @@ public class DexFileInfoCollecter{
 
 	}
 
-	public void backsmaliDexFile(String filename, String dexPath) {
+	public void baksmaliDexFile(String filename, String dexPath) {
 		File file = new File(filename);
 		try {
 			if (!file.exists())

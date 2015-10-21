@@ -57,7 +57,7 @@ public class CommandHandlerParser {
             return  new DumpDexFileCommandHandler(dexpath);
 		} else if (ACTION_BAKSMALI_DEXFILE.equals(action)) {
 			String dexpath = getStringParameter(jsoncmd, PARAM_DEXPATH);
-             return new BackSmaliCommandHandler(dexpath);
+             return new BakSmaliCommandHandler(dexpath);
 		} else if (ACTION_DUMP_DEXCLASS.equals(action)) {
             String dexpath = getStringParameter(jsoncmd, PARAM_DEXPATH);
             return  new DumpClassCommandHandler(dexpath);
