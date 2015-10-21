@@ -17,6 +17,7 @@ public class DumpDexInfoCommandHandler implements CommandHandler {
 		while (itor.hasNext()) {
 			info = itor.next();
 			Logger.log("filepath:"+ info.getDexPath()+" mCookie:"+info.getmCookie());
+			Logger.warn("filepath:"+ info.getDexPath()+" mCookie:"+info.getmCookie());
 		}
 		Logger.log("End DexFile Infomation");
 	}

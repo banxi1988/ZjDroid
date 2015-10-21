@@ -19,7 +19,6 @@ public class DumpMemCommandHandler implements CommandHandler {
 
 	@Override
 	public void doAction() {
-		// TODO Auto-generated method stub
 		String memfilePath = ModuleContext.getInstance().getAppContext().getFilesDir()+"/"+dumpFileName;
         MemDump.dumpMem(memfilePath,start, length);       
         Logger.log("the mem data save to ="+ memfilePath);

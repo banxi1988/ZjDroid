@@ -22,7 +22,6 @@ public class MemDump {
 			try {
 				out.write(buffer, 0, count);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}
@@ -37,7 +36,6 @@ public class MemDump {
 				file.createNewFile();
 				file.setWritable(true);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 

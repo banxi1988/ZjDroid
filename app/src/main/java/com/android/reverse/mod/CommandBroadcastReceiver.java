@@ -9,6 +9,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import de.robv.android.xposed.XposedBridge;
+
 public class CommandBroadcastReceiver extends BroadcastReceiver {
 
 	public static String INTENT_ACTION = "com.zjdroid.invoke";
@@ -41,6 +43,7 @@ public class CommandBroadcastReceiver extends BroadcastReceiver {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            XposedBridge.log("onReceive Error "+e.getMessage());
         }
 	}
 	

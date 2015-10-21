@@ -15,15 +15,19 @@ public class Logger {
 	
 	public static void log(String message){
 		if(DEBUG_ENABLE) {
-			XposedBridge.log(LOGTAG_COMMAN + PACKAGENAME + message);
+			XposedBridge.log(LOGTAG_COMMAN + PACKAGENAME +" "+ message);
 		}
 
 	}
 	
 	public static void log_behavior(String message){
 		if(DEBUG_ENABLE){
-			XposedBridge.log(LOGTAG_WORKFLOW + PACKAGENAME+message);
+			XposedBridge.log(LOGTAG_WORKFLOW + PACKAGENAME+" "+ message);
 		}
+	}
+
+	public static void warn(String message){
+		Log.w("updroid",message);
 	}
 	
 }

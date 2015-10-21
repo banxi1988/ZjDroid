@@ -195,6 +195,7 @@ public class DexFileInfoCollecter{
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
+			XposedBridge.log("UpDroid dumpDexFileError "+e.getMessage());
 		}
 	}
 
